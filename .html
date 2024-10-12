@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Black Body Radiation Simulation</title>
+    <style>
+        body { margin: 0; }
+        canvas { display: block; }
+    </style>
+</head>
+<body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        // Set up the scene, camera, and renderer
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        // Create spheres representing black bodies at different temperatures
+        const geometry = new THREE.SphereGeometry(1, 32, 32);
+
+        // Materials with different colors (representing different temperatures)
+        const redMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+        const orangeMaterial = new THREE.MeshBasicMaterial({ color: 0xffa500 });
+        const whiteMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
+        const blueMaterial = new THREE.MeshBasicMaterial({ color: 0x0000ff });
+
+        // Create meshes for the spheres
+        const redSphere = new THREE.Mesh(geometry, redMaterial);
+        const orangeSphere = new THREE.Mesh(geometry, orangeMaterial);
+        const whiteSphere = new THREE.Mesh(geometry, whiteMaterial);
+        const blueSphere = new THREE.Mesh(geometry, blueMaterial);
+
+        // Position the spheres
+        redSphere.position.x = -4;
+        orangeSphere.position.x = -1;
+        whiteSphere.position.x = 2;
+        blueSphere.position.x = 5;
+
+        // Add the spheres to the scene
+        scene.add(redSphere);
+        scene.add(orangeSphere);
+        scene.add(whiteSphere);
+        scene.add(blueSphere);
+
+        // Set camera position
+        camera.position.z = 10;
+
+        // Animation loop
+        function animate() {
+            requestAnimationFrame(animate);
+
+            // Rotate spheres slowly
+            redSphere.rotation.y += 0.01;
+            orangeSphere.rotation.y += 0.01;
+            whiteSphere.rotation.y += 0.01;
+            blueSphere.rotation.y += 0.01;
+
+            renderer.render(scene, camera);
+        }
+
+        animate();
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+        });
+    </script>
+</body>
+</html>
